@@ -26,10 +26,8 @@ def studentDetail(request, pk):
     """
     Retrieve, update or delete a code snippet.
     """
-    print("in detail", request, pk)
     try:
         student = Students.objects.get(id=pk)
-        print("student is:", student)
     except Students.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
