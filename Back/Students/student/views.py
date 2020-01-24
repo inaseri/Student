@@ -1,9 +1,27 @@
-from django.http import HttpResponse, JsonResponse
+# import models
+from django.contrib.auth.models import User, Group
+from .models import Students
+
+# rest framework
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .models import Students
-from .serializers import StudentSerializer
 from rest_framework.response import Response
+
+# api imports
+from django.http import HttpResponse, JsonResponse
+from .serializers import StudentSerializer, UserSerializer
+
+
+@api_view(['POST'])
+def create_auth(request):
+    if request.method == 'POST':
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+
+
 
 
 @api_view(['GET', 'POST'])
